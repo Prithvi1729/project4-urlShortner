@@ -1,13 +1,11 @@
 const express = require('express');
+
+const urlController = require('../controllers/urlController')
 const router = express.Router();
-const Controller = require("../Controllers/CollegeController");
-const InternController = require("../Controllers/InternController");
+
+router.post('/url/shorten', urlController.createShortUrl)
+router.get('/shortUrl/:code', urlController.getUrl)
 
 
-
-
-router.post("/functionup/colleges", Controller.createCollege)
-router.post("/functionup/interns", InternController.InternCreate)
-router.get("/functionup/collegeDetails", Controller.collegeDetails)
 
 module.exports = router;
