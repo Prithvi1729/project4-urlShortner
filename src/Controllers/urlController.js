@@ -23,7 +23,8 @@ let createShortUrl = async (req, res) => {
                     longUrl
                 })
                 if (url) {
-                    res.status(201).send({ status: true, data: url, msg: "url already exist" })
+                    res.status(400).send({ status: false, msg: "shortUrl alredy created" })
+                    return
                 }
 
                 const shortUrl = baseUrl + '/' + urlCode
