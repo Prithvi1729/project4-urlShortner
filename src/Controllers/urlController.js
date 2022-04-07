@@ -107,7 +107,7 @@ let createShortUrl = async (req, res) => {
             if (url) {
                 await SET_ASYNC(`${shortCode}`, JSON.stringify(record))
                 let path = record.longUrl
-                 res.redirect(301, path)
+                return res.redirect(301, path)
             } 
             else {
                 return res.status(404).send({ status: false, msg: 'Url not found' })
