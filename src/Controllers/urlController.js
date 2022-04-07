@@ -90,28 +90,28 @@ let createShortUrl = async (req, res) => {
     let getUrl = async (req, res) => {
         try {
             let Code = req.params.code
-            let shortCode = Code.trim()
-            if (!isValid(shortCode)) {
+            if (!isValid(Code)) {
             res.status(400).send({ 'status': 'failed', 'message': 'please enter valid code' })
                         }
-            let cachedUrlData = await GET_ASYNC(`${shortCode}`)
+            let cachedUrlData = await GET_ASYNC(`${Code}`)
            
-            if (cachedUrlData) {
+            if (cachedUrlData) 
+            {
              urlRecord = JSON.parse(cachedUrlData)
-               let long_Url = urlRecord.longUrl
-                return res.redirect(302, long_Url)
-                                   }
-                const url = await urlModel.findOne({
-                    urlCode: req.params.code
-                })
-            if (url) {
-                await SET_ASYNC(`${shortCode}`, JSON.stringify(record))
-                let path = record.longUrl
-                return res.redirect(301, path)
-            } 
-            else {
-                return res.status(404).send({ status: false, msg: 'Url not found' })
+            let long_Url = urlRecord.longUrl
+            return res.redirect(302, long_Url)
             }
+                
+            const url = await urlModel.findOne({
+                urlCode: req.params.code
+                })
+            if (!url) 
+             {
+                return res.status(404).send({ status: false, msg: 'Url not found' })
+             }
+             await SET_ASYNC(`${Code}`, JSON.stringify(record))
+             let path = record.longUrl
+             return res.redirect(301, path)
         }
         catch (error) {
 
