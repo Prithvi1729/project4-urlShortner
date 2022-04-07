@@ -81,6 +81,11 @@ let createShortUrl = async (req, res) => {
     }
     }
 
+    const isValid = function (value) {
+        if (typeof value === 'undefined' || value === null) return false
+        if (typeof value === 'string' && value.trim().length === 0) return false
+        return true
+      }
 
     let getUrl = async (req, res) => {
         try {
@@ -97,7 +102,7 @@ let createShortUrl = async (req, res) => {
                 return res.redirect(302, long_Url)
                                    }
                 const url = await urlModel.findOne({
-                    urlCode: shortCode
+                    urlCode: req.params.code
                 })
             if (url) {
                 await SET_ASYNC(`${shortCode}`, JSON.stringify(record))
